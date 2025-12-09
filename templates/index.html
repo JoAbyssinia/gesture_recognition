@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🖐️ Finger Tracking Emoji App</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖐️ Finger Tracking Emoji</h1>
+            <p>Show your hand gestures to the camera and see matching emojis!</p>
+        </header>
+        
+        <main>
+            <div class="video-container">
+                <img src="/video_feed" alt="Video Feed" id="video-feed">
+            </div>
+            
+            <div class="emoji-display">
+                <div id="current-emoji">🤔</div>
+                <div id="gesture-name">Waiting for gesture...</div>
+            </div>
+        </main>
+        
+        <section class="gestures-guide">
+            <h2>Supported Gestures</h2>
+            <div class="gesture-grid">
+                <div class="gesture-item">
+                    <span class="emoji">👍</span>
+                    <span class="name">Thumbs Up</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">👎</span>
+                    <span class="name">Thumbs Down</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">✌️</span>
+                    <span class="name">Peace</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">🖐️</span>
+                    <span class="name">Open Palm</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">✊</span>
+                    <span class="name">Fist</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">👆</span>
+                    <span class="name">Pointing Up</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">👌</span>
+                    <span class="name">OK Sign</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">🤘</span>
+                    <span class="name">Rock On</span>
+                </div>
+                <div class="gesture-item">
+                    <span class="emoji">🤙</span>
+                    <span class="name">Pinky Up</span>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Built with Python, Flask, OpenCV & MediaPipe</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Poll for current gesture updates
+        setInterval(async () => {
+            try {
+                const response = await fetch('/current_gesture');
+                const data = await response.json();
+                document.getElementById('current-emoji').textContent = data.emoji;
+                document.getElementById('gesture-name').textContent = data.gesture.replace('_', ' ');
+            } catch (error) {
+                console.log('Error fetching gesture:', error);
+            }
+        }, 100);
+    </script>
+</body>
+</html>
